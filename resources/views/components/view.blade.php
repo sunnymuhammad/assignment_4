@@ -1,5 +1,8 @@
 
 
+            @if (session('message'))
+                <h1> {{session('message')}} </h1>
+            @endif
 
 
         <div class="flex justify-between px-[100px] py-5 h-[70px] shadow-md">
@@ -25,6 +28,7 @@
                         <select name="menu" class="p-2  bg-white border-black/25 border rounded-sm">
                             <option value="name">Short By Name</option>
                             <option value="price"> Short By Price</option>
+                            <option value="" selected> </option>
                           </select>
                           <button class="bg-[#4a61c9] text-white font-[600] px-2 py-1 border-none rounded-sm">Sort</button>
                        </div>
@@ -33,6 +37,7 @@
                         <select name="sort" class="p-1 bg-white border-black/25 border rounded-sm">
                             <option value="asc">Short By Asc</option>
                             <option value="desc"> Short By Desc</option>
+                            <option value="" selected></option>
                         </select>
                        </div>
 
@@ -68,7 +73,7 @@
                                            <button>Edit</button>
                                        </a>
 
-                                       <form action="{{ route('delete', $item->id) }}" method="Post" onsubmit="return confirm('Are you Sure to Delete?')" class="inline bg-red-400 px-1 py-1 rounded-sm">
+                                       <form action="{{ route('delete', $item->id) }}" method="post" onsubmit="return confirm('Are you Sure to Delete?')" class="inline bg-red-400 px-1 py-1 rounded-sm">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-white">Delete</button>

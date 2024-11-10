@@ -34,16 +34,15 @@ class ProductController extends Controller
                  'product_id'=>'required|integer',
                  'name'=>'required',
                  'description'=>'nullable',
-                 'price'=>'required',
-                 'stock'=>'nullable',
-                 'image'=>'nullable',
+                 'price'=>'required|numeric',
+                 'stock'=>'nullable|integer',
+                 'image'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
         $product = Product::where('product_id', $request->product_id)->first();
-        $image = $request->file('image');
-        if($image){
-        $imageName = time().".".$image->getClientOriginalExtension();
-        $image->move(public_path('images'), $imageName);
+        if($request->hasFile('image')){
+        $imageName = time().".".$request->file('image')->getClientOriginalExtension();
+        $request->file('image')->move(public_path('images'), $imageName);
         }else{
             $imageName=null;
         }
@@ -96,10 +95,37 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = array_filter($request->only('product_id', 'name', 'description', 'price', 'stock', 'image'));
+                $request->validate([
+                    'product_id'=>'nullable|integer',
+                    'name'=>'nullable|string|max:255',
+                    'description'=>'nullable',
+                    'price'=>'numeric|nullable',
+                    'stock'=>'nullable|integer',
+                    'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                ]);
+
+                $data = $request->only('product_id', 'name', 'description', 'price', 'stock');
+
+                if($request->hasFile('image')){
+                   $oldImage= Product::find($id)->image;
+                   if($oldImage && file_exists(public_path('images/'.$oldImage))){
+                        unlink(public_path('images/'.$oldImage));
+                   }
+                   Product::where("id",'=',$id)->update(['image'=>null]);
+
+                   $image=$request->file('image');
+                   $imageName=time().".".$image->getClientOriginalExtension();
+                   $image->move(public_path('images'),$imageName);
+                   $data['image']=$imageName;
+
+                }
+
+
+                   $data=array_filter($data);
+
         // dd($data);
-        Product::where('id', '=', $id)->update($data);
-        return redirect('products');
+                Product::where('id', '=', $id)->update($data);
+                return redirect('products')->with('message','Product has been updated');
     }
 
     /**
