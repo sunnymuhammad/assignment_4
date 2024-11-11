@@ -2,7 +2,7 @@
 
     <div class="max-w-[1300px] mx-auto p-4 bg-[#fff]">
         <h1 class="text-center text-[30px]">Update Product</h1>
-        <form action=" {{route('update',$id)}} " method="Post" enctype="multipart/form-data">
+        <form action=" {{route('products.update',$id)}} " method="Post" enctype="multipart/form-data">
             @method("PUT")
             @csrf
 

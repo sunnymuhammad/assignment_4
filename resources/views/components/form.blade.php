@@ -2,7 +2,7 @@
 
     <div class="max-w-[1300px] mx-auto p-4 bg-[#fff]">
         <h1 class="text-center text-[30px]">Create New Product</h1>
-        <form action=" {{route('store')}} " method="POST" enctype="multipart/form-data">
+        <form action=" {{route('products.store')}} " method="POST" enctype="multipart/form-data">
             @csrf
 
         <label for="product_id" class="block mt-10">Product_id</label>

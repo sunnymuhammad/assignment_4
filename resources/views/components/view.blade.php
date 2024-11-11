@@ -8,7 +8,7 @@
         <div class="flex justify-between px-[100px] py-5 h-[70px] shadow-md">
             <h1>Product Management</h1>
             <div>
-                <a href=" {{route('create')}} " class="bg-[#6b6be4] text-white p-1 rounded-[5px] font-[600] border-none whitespace-nowrap">+Create new product</a>
+                <a href=" {{route('products.create')}} " class="bg-[#6b6be4] text-white p-1 rounded-[5px] font-[600] border-none whitespace-nowrap">+Create new product</a>
             </div>
 
         </div>
@@ -17,7 +17,7 @@
 
             <div class="">
                 <div >
-                    <form  class="flex justify-between" action=" {{route('show','id')}} " method="GET">
+                    <form  class="flex justify-between" action=" {{route('products.show','id')}} " method="GET">
                        <div>
 
                         <input type="text"  class="border-gray-400 border h-8 w-[300px] rounded-md" name="name" id="name" placeholder="search by product id or description">
@@ -69,11 +69,11 @@
                                    <td class="max-[850px]:px-0 px-4 py-2 text-center"> {{$item->stock}}</td>
                                    <td class="max-[850px]:px-0 px-4 py-2 text-center">   <img src="{{ asset('images/' . $item->image) }}" class="h-[100px]" alt="{{ $item->name }}">  </td>
                                    <td class="max-[850px]:px-0 px-4 py-2 whitespace-nowrap max-[850px]:flex flex-col text-center">
-                                       <a href="{{route('edit',$item->id)}}" class="inline bg-green-600 px-1 py-1 m-1 rounded-sm">
+                                       <a href="{{route('products.edit',$item->id)}}" class="inline bg-green-600 px-1 py-1 m-1 rounded-sm">
                                            <button>Edit</button>
                                        </a>
 
-                                       <form action="{{ route('delete', $item->id) }}" method="post" onsubmit="return confirm('Are you Sure to Delete?')" class="inline bg-red-400 px-1 py-1 rounded-sm">
+                                       <form action="{{ route('products.destroy', $item->id) }}" method="post" onsubmit="return confirm('Are you Sure to Delete?')" class="inline bg-red-400 px-1 py-1 rounded-sm">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-white">Delete</button>
